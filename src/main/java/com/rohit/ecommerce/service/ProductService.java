@@ -3,6 +3,7 @@ package com.rohit.ecommerce.service;
 import com.rohit.ecommerce.dto.ProductRequestDTO;
 import com.rohit.ecommerce.dto.ProductResponseDTO;
 import com.rohit.ecommerce.entity.Product;
+import com.rohit.ecommerce.exception.ResourceNotFoundException;
 import com.rohit.ecommerce.repository.ProductRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,5 +43,15 @@ public class ProductService {
         return productRepo.findAll().stream()
                 .map(this::toResponseDTO)
                 .toList();
+    }
+
+    public ProductResponseDTO getProductByID(Long id) {
+        Product product =   findProductOrThrow(id);
+        return toResponseDTO(product);
+    }
+
+    private Product findProductOrThrow(Long id) {
+        return productRepo.findById(id)
+                .orElseThrow(()-> ResourceNotFoundException.forEntity("Product",id));
     }
 }
