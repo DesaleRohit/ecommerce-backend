@@ -7,6 +7,8 @@ import com.rohit.ecommerce.repository.ProductRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ProductService {
 
@@ -34,5 +36,11 @@ public class ProductService {
                 .stockQuantity(product.getStockQuantity())
                 .category(product.getCategory())
                 .build();
+    }
+
+    public List<ProductResponseDTO> getAllProducts() {
+        return productRepo.findAll().stream()
+                .map(this::toResponseDTO)
+                .toList();
     }
 }
