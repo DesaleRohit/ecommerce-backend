@@ -1,4 +1,4 @@
-package com.rohit.ecommerce.repo;
+package com.rohit.ecommerce.repository;
 
 import com.rohit.ecommerce.entity.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
