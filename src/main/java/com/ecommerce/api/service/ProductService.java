@@ -2,6 +2,7 @@ package com.ecommerce.api.service;
 
 import com.ecommerce.api.dto.ProductRequest;
 import com.ecommerce.api.entity.Products;
+import com.ecommerce.api.exception.ResourceNotFoundException;
 import com.ecommerce.api.repository.ProductRepo;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
@@ -29,5 +30,10 @@ public class ProductService {
         products.setStockQuantity(request.getStockQuantity());
         products.setCategory(request.getCategory());
         return productRepo.save(products);
+    }
+
+    public Products getProductById(Long id) {
+        return productRepo.findById(id)
+                .orElseThrow(()-> new ResourceNotFoundException("Product not found with id:"+id));
     }
 }
