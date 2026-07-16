@@ -1,10 +1,12 @@
 package com.ecommerce.api.controller;
 
+import com.ecommerce.api.dto.ProductRequest;
 import com.ecommerce.api.entity.Products;
 import com.ecommerce.api.service.ProductService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -16,6 +18,12 @@ public class ProductController {
 
     public ProductController(ProductService productService) {
         this.productService = productService;
+    }
+
+    @PostMapping
+    public ResponseEntity<Products> createProduct(@Valid @RequestBody ProductRequest request) {
+        Products created = productService.createProduct(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
     @GetMapping
