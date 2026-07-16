@@ -1,13 +1,13 @@
-package com.rohit.ecommerce;
+package com.ecommerce.api;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class EcommerceApplication {
+public class EcommerceBackendApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(EcommerceApplication.class, args);
+		SpringApplication.run(EcommerceBackendApplication.class, args);
 	}
 
 }
