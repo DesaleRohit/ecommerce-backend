@@ -36,4 +36,16 @@ public class ProductService {
         return productRepo.findById(id)
                 .orElseThrow(()-> new ResourceNotFoundException("Product not found with id:"+id));
     }
+
+    public Products updateProduct(Long id, ProductRequest request) {
+        Products product = getProductById(id);
+
+        product.setName(request.getName());
+        product.setDescription(request.getDescription());
+        product.setPrice(request.getPrice());
+        product.setStockQuantity(request.getStockQuantity());
+        product.setCategory(request.getCategory());
+
+        return productRepo.save(product);
+    }
 }
