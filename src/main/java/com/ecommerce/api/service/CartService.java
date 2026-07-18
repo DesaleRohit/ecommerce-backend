@@ -81,4 +81,18 @@ public class CartService {
         return cartItemRepo.findById(cartItemId)
                 .orElseThrow(() -> new ResourceNotFoundException("Cart item not found with id: " + cartItemId));
     }
+
+    public List<CartItem> updateQuantity(Long cartItemId, int newQuantity) {
+        CartItem item = getCartItemById(cartItemId);
+        Products product = item.getProduct();
+
+        if (newQuantity > product.getStockQuantity()) {
+            throw new InsufficientStockException(
+                    "Not enough stock for " + product.getName() + ". Available: " + product.getStockQuantity());
+        }
+
+        item.setQuantity(newQuantity);
+        cartItemRepo.save(item);
+        return getCartItems();
+    }
 }

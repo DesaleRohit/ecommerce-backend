@@ -1,6 +1,7 @@
 package com.ecommerce.api.controller;
 
 import com.ecommerce.api.dto.AddToCartRequest;
+import com.ecommerce.api.dto.UpdateQuantityRequest;
 import com.ecommerce.api.entity.CartItem;
 import com.ecommerce.api.service.CartService;
 import jakarta.validation.Valid;
@@ -36,6 +37,13 @@ public class CartController {
     @DeleteMapping("/items/{cartItemId}")
     public Map<String, Object> removeItem(@PathVariable Long cartItemId) {
         List<CartItem> items = cartService.removeFormCart(cartItemId);
+        return buildCartResponse(items);
+    }
+
+    @PutMapping("/items/{cartItemId}")
+    public Map<String, Object> updateQuantity(@PathVariable Long cartItemId,
+                                              @Valid @RequestBody UpdateQuantityRequest request) {
+        List<CartItem> items = cartService.updateQuantity(cartItemId, request.getQuantity());
         return buildCartResponse(items);
     }
 
