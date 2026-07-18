@@ -3,6 +3,7 @@ package com.ecommerce.api.service;
 import com.ecommerce.api.entity.CartItem;
 import com.ecommerce.api.entity.Products;
 import com.ecommerce.api.exception.InsufficientStockException;
+import com.ecommerce.api.exception.ResourceNotFoundException;
 import com.ecommerce.api.repository.CartItemRepo;
 import org.springframework.stereotype.Service;
 
@@ -70,4 +71,14 @@ public class CartService {
         return null;
     }
 
+    public List<CartItem> removeFormCart(Long cartItemId) {
+        CartItem item = getCartItemById(cartItemId);
+        cartItemRepo.delete(item);
+        return getCartItems();
+    }
+
+    private CartItem getCartItemById(Long cartItemId) {
+        return cartItemRepo.findById(cartItemId)
+                .orElseThrow(() -> new ResourceNotFoundException("Cart item not found with id: " + cartItemId));
+    }
 }
