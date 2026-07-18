@@ -6,11 +6,7 @@ import com.ecommerce.api.service.CartService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -35,6 +31,12 @@ public class CartController {
     public ResponseEntity<Map<String, Object>> addItem(@Valid @RequestBody AddToCartRequest request) {
         List<CartItem> items = cartService.addToCart(request.getProductId(), request.getQuantity());
         return ResponseEntity.status(HttpStatus.CREATED).body(buildCartResponse(items));
+    }
+
+    @DeleteMapping("/items/{cartItemId}")
+    public Map<String, Object> removeItem(@PathVariable Long cartItemId) {
+        List<CartItem> items = cartService.removeFormCart(cartItemId);
+        return buildCartResponse(items);
     }
 
     private Map<String, Object> buildCartResponse(List<CartItem> items) {
