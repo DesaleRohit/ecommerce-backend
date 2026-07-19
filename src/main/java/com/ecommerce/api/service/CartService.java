@@ -95,4 +95,8 @@ public class CartService {
         cartItemRepo.save(item);
         return getCartItems();
     }
+
+    public void clearCart() {
+        cartItemRepo.deleteAll();
+    }
 }
