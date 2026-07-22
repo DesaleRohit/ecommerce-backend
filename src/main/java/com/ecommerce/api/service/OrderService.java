@@ -6,6 +6,7 @@ import com.ecommerce.api.entity.OrderItem;
 import com.ecommerce.api.entity.CartItem;
 import com.ecommerce.api.entity.OrderStatus;
 import com.ecommerce.api.exception.InsufficientStockException;
+import com.ecommerce.api.exception.ResourceNotFoundException;
 import com.ecommerce.api.repository.OrderItemRepo;
 import com.ecommerce.api.repository.OrderRepo;
 import com.ecommerce.api.repository.ProductRepo;
@@ -77,4 +78,14 @@ public class OrderService {
     }
 
 
+    public Order getOrderById(Long id) {
+        return orderRepo.findById(id)
+                .orElseThrow(()-> new ResourceNotFoundException("Order not found with id: " + id));
+    }
+
+    public Order updateStatus(Long id, OrderStatus newStatus) {
+        Order order = getOrderById(id);
+        order.setStatus(newStatus);
+        return orderRepo.save(order);
+    }
 }

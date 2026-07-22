@@ -1,14 +1,13 @@
 package com.ecommerce.api.controller;
 
+import com.ecommerce.api.dto.UpdateStatusRequest;
 import com.ecommerce.api.entity.Order;
 import com.ecommerce.api.entity.OrderItem;
 import com.ecommerce.api.service.OrderService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -32,6 +31,17 @@ public class OrderController {
     @GetMapping
     public List<Order> getAllOrders() {
         return orderService.getAllOrders();
+    }
+
+    @GetMapping("/{id}")
+    public Map<String, Object> getOrderById(@PathVariable Long id) {
+        Order order = orderService.getOrderById(id);
+        return buildOrderResponse(order);
+    }
+
+    @PatchMapping("/{id}/status")
+    public Order updateStatus(@PathVariable Long id, @Valid @RequestBody UpdateStatusRequest request) {
+        return orderService.updateStatus(id, request.getStatus());
     }
 
     private Map<String, Object> buildOrderResponse(Order order) {
